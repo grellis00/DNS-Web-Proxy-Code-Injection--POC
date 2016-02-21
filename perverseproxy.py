@@ -3,7 +3,8 @@ import socket
 import urllib2
 
 
-HOST, PORT = '', int(sys.argv[1])
+HOST, PORT = sys.argv[1].split(":")
+PORT = int(PORT)
 
 listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -15,7 +16,6 @@ print HOST + ":" + str(PORT)
 while True:
     client_connection, client_address = listen_socket.accept()
     request = client_connection.recv(1024)
-    #print request
 
     request = request.splitlines()
     url = "http://" + request[1][6:] + request[0][4:-8]
